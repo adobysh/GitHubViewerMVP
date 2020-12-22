@@ -7,22 +7,22 @@
 
 import Foundation
 
-protocol RepositoryPresenter {
-    init(view: RepositoryView)
+protocol RepositoryPresenterProtocol {
+    init(view: RepositoryViewProtocol)
     var count: Int { get }
     func show(user: String)
-    func item(for index: Int) -> RepositoryModel
+    func item(for index: Int) -> RepositoryModel?
 }
 
-class RepositoryPresenterImpl: RepositoryPresenter {
+class RepositoryPresenter: RepositoryPresenterProtocol {
     
     public var count: Int {
         return repositories.count
     }
     private var repositories: [RepositoryModel] = []
-    private let view: RepositoryView
+    private weak var view: RepositoryViewProtocol?
     
-    required init(view: RepositoryView) {
+    required init(view: RepositoryViewProtocol) {
         self.view = view
     }
     
@@ -31,16 +31,16 @@ class RepositoryPresenterImpl: RepositoryPresenter {
             switch completion {
             case .complete(let value):
                 self.repositories = value
-                self.view.update()
+                self.view?.update()
             case .error(let error):
                 self.repositories = []
-                self.view.showError(error)
+                self.view?.showError(error)
             }
         }
     }
     
-    func item(for index: Int) -> RepositoryModel {
-        return repositories[index]
+    func item(for index: Int) -> RepositoryModel? { // todo title subtitle
+        return repositories[safe: index]
     }
     
 }

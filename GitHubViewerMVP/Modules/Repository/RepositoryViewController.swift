@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol RepositoryView {
+protocol RepositoryViewProtocol: AnyObject {
     func update()
     func showError(_ error: Error)
 }
@@ -20,7 +20,7 @@ class RepositoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter = RepositoryPresenterImpl(view: self)
+        presenter = RepositoryPresenter(view: self)
     }
     
     @IBAction func goAction(_ sender: Any) {
@@ -36,8 +36,8 @@ extension RepositoryViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "RepositoryCell") as! RepositoryCell
-        guard let item = presenter?.item(for: indexPath.row) else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "RepositoryCell") as? RepositoryCell,
+              let item = presenter?.item(for: indexPath.row) else {
             return UITableViewCell()
         }
         cell.titleLabel.text = item.name
@@ -47,7 +47,7 @@ extension RepositoryViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
-extension RepositoryViewController: RepositoryView {
+extension RepositoryViewController: RepositoryViewProtocol {
     
     func showError(_ error: Error) {
         let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
