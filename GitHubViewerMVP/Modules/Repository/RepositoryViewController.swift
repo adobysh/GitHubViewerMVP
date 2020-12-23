@@ -37,7 +37,7 @@ extension RepositoryViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "RepositoryCell") as? RepositoryCell,
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: RepositoryCell.self)) as? RepositoryCell,
               let item = presenter?.item(for: indexPath.row) else {
             return UITableViewCell()
         }
