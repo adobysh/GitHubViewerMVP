@@ -29,6 +29,7 @@ class RepositoryViewController: UIViewController {
 
 }
 
+// MARK: - UITableViewDelegate, UITableViewDataSource
 extension RepositoryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -47,6 +48,7 @@ extension RepositoryViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
+// MARK: - RepositoryViewProtocol
 extension RepositoryViewController: RepositoryViewProtocol {
     
     func showError(_ error: Error) {
