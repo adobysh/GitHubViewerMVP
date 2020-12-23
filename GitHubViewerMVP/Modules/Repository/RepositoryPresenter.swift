@@ -11,7 +11,7 @@ protocol RepositoryPresenterProtocol {
     init(view: RepositoryViewProtocol)
     var count: Int { get }
     func show(user: String)
-    func item(for index: Int) -> RepositoryModel?
+    func item(for index: Int) -> RepositoryCellModel?
 }
 
 class RepositoryPresenter: RepositoryPresenterProtocol {
@@ -39,8 +39,13 @@ class RepositoryPresenter: RepositoryPresenterProtocol {
         }
     }
     
-    func item(for index: Int) -> RepositoryModel? { // todo title subtitle
-        return repositories[safe: index]
+    func item(for index: Int) -> RepositoryCellModel? {
+        if let repositoryModel = repositories[safe: index] {
+            return RepositoryCellModel(titleMessage: repositoryModel.name ?? "",
+                                       descriptionMessage: repositoryModel.createdAt ?? "")
+        } else {
+            return nil
+        }
     }
     
 }

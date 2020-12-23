@@ -40,8 +40,8 @@ extension RepositoryViewController: UITableViewDelegate, UITableViewDataSource {
               let item = presenter?.item(for: indexPath.row) else {
             return UITableViewCell()
         }
-        cell.titleLabel.text = item.name
-        cell.descriptionLabel.text = item.createdAt
+        cell.titleLabel.text = item.titleMessage
+        cell.descriptionLabel.text = item.descriptionMessage
         return cell
     }
     
